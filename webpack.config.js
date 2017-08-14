@@ -1,5 +1,5 @@
 module.exports = {
-    entry: __dirname + '/scripts/app.ts',
+    entry: __dirname + '/src/app.ts',
     module: {
         rules: [
             {
@@ -14,6 +14,6 @@ module.exports = {
     },
     output: {
         path: __dirname + '/dist',
-        filename: 'bundle.js'
+        filename: 'app.js'
     }
 };
