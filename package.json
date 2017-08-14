@@ -1,16 +1,16 @@
 {
   "name": "maze",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "HTML/JS Game for js13kGames 2017, theme : lost",
   "scripts": {
-    "dev": "webpack --progress --colors --watch --optimize-minimize"
+    "dev": "webpack --watch --optimize-minimize"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JimmyLERAY/Maze.git"
   },
   "author": "Jimmy LERAY",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "webpack": "^3.5.4"
   }
