@@ -1,0 +1,14 @@
+{
+  "name": "maze",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "webpack --progress --colors --watch --optimize-minimize"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JimmyLERAY/Maze.git"
+  },
+  "author": "Jimmy LERAY",
+  "license": "ISC"
+}
