@@ -12,6 +12,8 @@
   "author": "Jimmy LERAY",
   "license": "MIT",
   "devDependencies": {
+    "ts-loader": "^2.3.2",
+    "typescript": "^2.4.2",
     "webpack": "^3.5.4"
   }
 }
