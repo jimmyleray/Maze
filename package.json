@@ -10,5 +10,8 @@
     "url": "git+https://github.com/JimmyLERAY/Maze.git"
   },
   "author": "Jimmy LERAY",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^3.5.4"
+  }
 }
