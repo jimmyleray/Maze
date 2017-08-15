@@ -1,2 +1,2 @@
-let a: number = 3
-console.log('Hello World ' + a)
+import Game from "./game"
+new Game().init()
