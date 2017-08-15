@@ -1,17 +1,43 @@
-import Canvas from "./canvas"
+import Config from './config'
+import Canvas from './canvas'
+import Chrono from './chrono'
+
+interface Player {
+    name: string
+    canvas: Canvas
+}
 
 export default class Game {
-
-    canvas = new Canvas()
+    
+    players: Array<Player> = []
+    chrono = new Chrono()
 
     init = () => {
-        window.addEventListener('resize', this.canvas.resize)
-        this.canvas.resize()
+        this.addPlayer('Albard')
+        this.addPlayer()
+        this.addPlayer()
+        this.addPlayer()
+        this.chrono.start()
         this.render()
     }
 
+    addPlayer = (name: string = 'Player') => {
+        const node = document.createElement('canvas')
+        node.id = 'player-' + this.players.length
+        node.style.borderColor = Config.playersColors[this.players.length]
+        document.getElementById('game').appendChild(node)
+        this.players.push({ name: name, canvas: new Canvas(node.id) })
+    }
+
+    removePlayer = (id: number) => {
+        const list = document.getElementById('game')
+        list.removeChild(list.childNodes[id])
+        this.players[id].canvas = null
+        this.players.slice(id, 0)
+    }
+
     render = () => {
-        this.canvas.background()
+        this.players.map(player => player.canvas.background())
         requestAnimationFrame(this.render)
     }
 

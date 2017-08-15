@@ -1,15 +1,23 @@
-import Config from "./config"
+import Config from './config'
 
 export default class Canvas {
 
-    orientation: string = "landscape"
-    canvas = <HTMLCanvasElement> document.getElementById('game')
-    ctx: CanvasRenderingContext2D = this.canvas.getContext("2d")
+    canvas: HTMLCanvasElement
+    ctx: CanvasRenderingContext2D
+    orientation: string = 'landscape'
+
+    constructor (id: string) {
+        this.canvas = <HTMLCanvasElement> document.getElementById(id)
+        this.ctx = this.canvas.getContext("2d")
+        window.addEventListener('resize', this.resize)
+        this.resize()
+    }
 
     resize = () => {
-        this.canvas.width = window.innerWidth
-        this.canvas.height = window.innerHeight
-        this.orientation = this.canvas.width >= this.canvas.height ? "landscape" : "portrait"
+        const borderWidth: number = 2*parseInt(getComputedStyle(this.canvas).getPropertyValue('border-width').slice(0, -2))
+        this.canvas.width = window.innerWidth/2 - borderWidth
+        this.canvas.height = window.innerHeight/2 - borderWidth
+        this.orientation = this.canvas.width >= this.canvas.height ? 'landscape' : 'portrait'
     }
 
     background = () => { this.rectangle(Config.backgroundColor) }
