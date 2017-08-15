@@ -3,7 +3,6 @@ import Config from './config'
 export default class Chrono {
 
     startTime: Date
-    actualTime: Date
     diffTime: number = 0
     stockedTime: number = 0
     isPaused: boolean = false
@@ -22,15 +21,14 @@ export default class Chrono {
     }
 
     actualize = () => {
-        this.actualTime = new Date()
-        this.diffTime = this.stockedTime + Math.abs(this.actualTime.getTime() - this.startTime.getTime())
-        this.display()
+        this.diffTime = this.stockedTime + Math.abs(new Date().getTime() - this.startTime.getTime())
         if (!this.isPaused) { requestAnimationFrame(this.actualize) } else { this.stockedTime = this.diffTime }
+        this.display()
     }
 
     display = () => {
         this.chrono.childNodes[1].textContent = ((this.diffTime - this.diffTime % 1000) / 1000).toString()
-        this.chrono.childNodes[3].textContent = ('00' + (this.diffTime % 1000).toString()).slice(-3, -1)
+        this.chrono.childNodes[3].textContent = ('00' + (this.diffTime % 1000).toString() + '0').slice(-4, -1)
     }
     
 }

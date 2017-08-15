@@ -14,13 +14,12 @@ export default class Canvas {
     }
 
     resize = () => {
-        const borderWidth: number = 2*parseInt(getComputedStyle(this.canvas).getPropertyValue('border-width').slice(0, -2))
-        this.canvas.width = window.innerWidth/2 - borderWidth
-        this.canvas.height = window.innerHeight/2 - borderWidth
+        this.canvas.width = window.innerWidth/2 - 4
+        this.canvas.height = window.innerHeight/2 - 4
         this.orientation = this.canvas.width >= this.canvas.height ? 'landscape' : 'portrait'
     }
 
-    background = () => { this.rectangle(Config.backgroundColor) }
+    background = (id: number) => { this.rectangle('white'); this.rectangle(Config.playersColors[id].slice(0, 20) + '0.1)') }
 
     rectangle = (color: string, x: number = 0, y: number = 0, w: number = this.canvas.width, h: number = this.canvas.height) => {
         this.ctx.fillStyle = color

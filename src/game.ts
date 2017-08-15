@@ -37,7 +37,7 @@ export default class Game {
     }
 
     render = () => {
-        this.players.map(player => player.canvas.background())
+        this.players.map((player, id) => player.canvas.background(id))
         requestAnimationFrame(this.render)
     }
 

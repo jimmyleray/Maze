@@ -1,17 +1,36 @@
 html, body, #game {
+    font-family: Arial, Helvetica, sans-serif;
     width: 100%; height: 100%;
     margin: 0; border: 0;
     overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
-#game {
-    display: flex;
-    flex-wrap: wrap;
+#game canvas:nth-child(1) {
+    position: absolute;
+    top: 0; left: 0;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
 }
 
-#game canvas {
-    border: 6px solid;
+#game canvas:nth-child(2) {
+    position: absolute;
+    top: 0; right: 0;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+}
+
+#game canvas:nth-child(3) {
+    position: absolute;
+    bottom: 0; left: 0;
+    border-top: 2px solid;
+    border-right: 2px solid;
+}
+
+#game canvas:nth-child(4) {
+    position: absolute;
+    bottom: 0; right: 0;
+    border-top: 2px solid;
+    border-left: 2px solid;
 }
 
 #container {
@@ -24,19 +43,19 @@ html, body, #game {
 
 #chrono {
     cursor: pointer;
-    width: 100px;
-    height: 100px;
-    line-height:100px;
-    color: white;
-    font-size: 16px;
-    background-color: grey;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    color: grey;
+    font-size: 14px;
+    background-color: #ecf0f1;
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid grey;
     margin: auto;
     text-align: center;
 }
 
 #chrono span:first-child {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
 }
