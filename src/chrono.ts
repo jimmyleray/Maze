@@ -5,7 +5,7 @@ export default class Chrono {
     startTime: Date
     diffTime: number = 0
     stockedTime: number = 0
-    isPaused: boolean = false
+    isPaused: boolean = true
     chrono: HTMLElement = document.getElementById('chrono')
 
     constructor () {
@@ -27,8 +27,9 @@ export default class Chrono {
     }
 
     display = () => {
-        this.chrono.childNodes[1].textContent = ((this.diffTime - this.diffTime % 1000) / 1000).toString()
-        this.chrono.childNodes[3].textContent = ('00' + (this.diffTime % 1000).toString() + '0').slice(-4, -1)
+        this.chrono.childNodes[1].textContent = ''
+        this.chrono.childNodes[3].textContent = ((this.diffTime - this.diffTime % 1000) / 1000).toString()
+        this.chrono.childNodes[5].textContent = ('00' + (this.diffTime % 1000).toString() + '0').slice(-4, -1)
     }
     
 }
