@@ -1,8 +1,6 @@
 export default {
-    blocksProbability: 0.2,
     backgroundColor: '#ecf0f1',
     wallsColor: '#ccc',
-    blocksColor: '#ccc',
     playersColors: [
         'rgba(231, 076, 060, 1.0)', // red
         'rgba(052, 152, 219, 1.0)', // blue
