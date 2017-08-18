@@ -8,7 +8,7 @@ export default class Labyrinth {
     cellSize: number
     grid: Cell[][] = []
 
-    constructor (width: number = 60, height: number = 30, cellSize: number = 15) {
+    constructor (width: number = 65, height: number = 35, cellSize: number = 15) {
         this.width = width
         this.height = height
         this.cellSize = cellSize
