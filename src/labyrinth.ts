@@ -3,20 +3,15 @@ import Cell from './cell'
 
 export default class Labyrinth {
     
-    width: number
-    height: number
-    cellSize: number
+    width: number = Math.floor(window.innerWidth/Config.cellSize)
+    height: number = Math.floor(window.innerHeight/Config.cellSize)
+    cellSize: number = Config.cellSize
     grid: Cell[][] = []
-    
-    constructor (width: number = 50, height: number = 20, cellSize: number = 30) {
-        this.width = width
-        this.height = height
-        this.cellSize = cellSize
-        
+
+    constructor () {
         this.createGrid()
         while (!this.isGenerated()) this.generateLabyrinth()
         this.selectEnd()
-
     }
 
     createGrid = () => {

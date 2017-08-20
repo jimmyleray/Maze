@@ -7,15 +7,14 @@ export default class Canvas {
     labyrinth: Labyrinth
     canvas: HTMLCanvasElement = <HTMLCanvasElement> document.getElementById('game')
     ctx: CanvasRenderingContext2D = this.canvas.getContext("2d")
-    orientation: string = 'landscape'
     players: Player[]
+
 
     constructor (labyrinth: Labyrinth, players: Player[] = []) {
         this.players = players
         this.labyrinth = labyrinth
-        this.canvas.width = window.innerWidth
-        this.canvas.height = window.innerHeight
-        this.orientation = this.canvas.width >= this.canvas.height ? 'landscape' : 'portrait'
+        this.canvas.width = Math.floor(window.innerWidth/Config.cellSize)*Config.cellSize
+        this.canvas.height = Math.floor(window.innerHeight/Config.cellSize)*Config.cellSize
         this.draw()
     }
 
@@ -27,14 +26,6 @@ export default class Canvas {
 
     clear = () => { this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height) }
 
-    drawPlayers = () => {
-        this.players.map(player => {
-            player.move()
-            this.circle(Config.playersColors[player.id], 1, player.x, player.y, player.size)
-            this.font(player.name, Config.playersColors[player.id], player.x + 2*player.size, player.y + player.size)
-        })
-    }
-
     drawLabyrinth = () => {
         this.labyrinth.grid.map((row, i) => {
             row.map((cell, j) => {
@@ -44,7 +35,7 @@ export default class Canvas {
                 cell.walls.map((wall, n) => {
                     if (wall) {
                         this.line(
-                            Config.wallsColor, 3,
+                            Config.wallsColor, Config.wallsWidth,
                             this.labyrinth.cellSize*(j + (n == 1 ? 1 : 0)),
                             this.labyrinth.cellSize*(i + (n == 2 ? 1 : 0)),
                             this.labyrinth.cellSize*(j + (n != 3 ? 1 : 0)),
@@ -53,6 +44,14 @@ export default class Canvas {
                     }
                 })
             })
+        })
+    }
+
+    drawPlayers = () => {
+        this.players.map(player => {
+            player.move()
+            this.circle(Config.playersColors[player.id], 1, player.x, player.y, player.size)
+            this.font(player.name, Config.playersColors[player.id], player.x + 2*player.size, player.y + player.size)
         })
     }
 

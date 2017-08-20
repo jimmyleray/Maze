@@ -47,9 +47,8 @@ export default class Player {
 
     move = () => {
         const cell = this.getActualCell()
-        console.log(this.x, this.y, cell)
         if (this.moves[0]) {
-            if ((this.y - this.size) % this.labyrinth.cellSize == 0) {
+            if ((this.y - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
                 if (!cell.walls[0]) this.y--
             } else {
                 this.y--
@@ -70,7 +69,7 @@ export default class Player {
             }
         }
         if (this.moves[3]) {
-            if ((this.x - this.size) % this.labyrinth.cellSize == 0) {
+            if ((this.x - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
                 if (!cell.walls[3]) this.x--
             } else {
                 this.x--

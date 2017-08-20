@@ -1,7 +1,10 @@
 export default {
+    cellSize: 30,
+    viewportPadding: 3,
     endColor: 'rgba(046, 204, 113, 0.25)',
     backgroundColor: '#ecf0f1',
     wallsColor: '#ccc',
+    wallsWidth: 2,
     playersColors: [
         'rgba(231, 076, 060, 1.0)', // red
         'rgba(052, 152, 219, 1.0)', // blue
