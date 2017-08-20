@@ -12,6 +12,7 @@ export default class Player {
     size: number = Config.playerSize
     config: number
     moves : boolean[] = [false, false, false, false]
+    history: number[][] = []
     x: number
     y: number
 
@@ -75,6 +76,8 @@ export default class Player {
                 this.x--
             }
         }
+        this.history.unshift([this.x, this.y])
+        this.history = this.history.splice(0, Config.tailSize)
     }
 
     getActualCell = (): Cell => this.labyrinth.grid[Math.floor(this.y / this.labyrinth.cellSize)][Math.floor(this.x / this.labyrinth.cellSize)]
