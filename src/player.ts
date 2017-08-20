@@ -9,7 +9,7 @@ export default class Player {
     name: string
     speed: number
     labyrinth: Labyrinth
-    size: number
+    size: number = Config.playerSize
     config: number
     moves : boolean[] = [false, false, false, false]
     x: number
@@ -21,11 +21,11 @@ export default class Player {
         config: number = 0,
         name: string = undefined, 
         x: number = 0, 
-        y: number = 0, 
-        size: number = 5,
+        y: number = 0
     ) {
-        this.labyrinth = labyrinth; this.config = config
-        this.id = id; this.x = x; this.y = y; this.size = size
+        this.id = id, this.labyrinth = labyrinth, this.config = config
+        this.x = this.labyrinth.cellSize*(0.5 + this.randInt(0, this.labyrinth.width - 1))
+        this.y = this.labyrinth.cellSize*(0.5 + this.randInt(0, this.labyrinth.height - 1))
         this.name = name ? name : 'Player ' + (id + 1).toString()
         this.init()
     }
@@ -79,4 +79,5 @@ export default class Player {
 
     getActualCell = (): Cell => this.labyrinth.grid[Math.floor(this.y / this.labyrinth.cellSize)][Math.floor(this.x / this.labyrinth.cellSize)]
     
+    randInt = (min: number, max: number): number => Math.floor(Math.random()*(max - min + 1)) + min
 }

@@ -35,10 +35,8 @@ export default class Game {
     start = () => { this.loopID = window.requestAnimationFrame(this.render) }
     stop = () => { if (this.loopID) window.cancelAnimationFrame(this.loopID) }
 
-    addPlayer = (name: string) => { this.players.push(new Player(this.labyrinth, this.players.length, this.players.length, name, this.labyrinth.cellSize*(0.5 + this.randInt(0, this.labyrinth.width - 1)), this.labyrinth.cellSize*(0.5 + this.randInt(0, this.labyrinth.height - 1)))) }
+    addPlayer = (name: string) => { this.players.push(new Player(this.labyrinth, this.players.length, this.players.length, name)) }
 
     cleanPlayers = () => { this.players = [] }
-
-    randInt = (min: number, max: number): number => Math.floor(Math.random()*(max - min + 1)) + min
 
 }

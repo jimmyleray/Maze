@@ -50,8 +50,10 @@ export default class Canvas {
     drawPlayers = () => {
         this.players.map(player => {
             player.move()
-            this.circle(Config.playersColors[player.id], 1, player.x, player.y, player.size)
-            this.font(player.name, Config.playersColors[player.id], player.x + 2*player.size, player.y + player.size)
+            this.circle(Config.playersColors[player.id], 1, player.x, player.y, player.size + 1)
+            this.circle(Config.backgroundColor, 1, player.x, player.y, player.size)
+            this.circle(Config.playersColors[player.id].substr(0,20) + '0.5)', 1, player.x, player.y, player.size)
+            //this.font(player.name, Config.playersColors[player.id].substr(0,20) + '0.5)', player.x + 2*player.size, player.y + player.size)
         })
     }
 

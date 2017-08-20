@@ -43,7 +43,7 @@ export default class Labyrinth {
         }
     }
 
-    selectEnd = () => { this.grid[this.randInt(0, this.height - 1)][this.randInt(0, this.width - 1)].isEnd = true }
+    selectEnd = () => { this.grid[Math.floor(this.height/2)][Math.floor(this.width/2)].isEnd = true }
 
     updateGroupId = (id: number, targetId: number) => {
         this.grid.map((row, i) => {
