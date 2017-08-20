@@ -9,10 +9,11 @@ export default class Chrono {
     chrono: HTMLElement = document.getElementById('chrono')
 
     constructor () {
-        this.chrono.addEventListener('click', event => {
-            if (!this.isPaused) { this.isPaused = true } else { this.start() }
-        })
+        this.chrono.addEventListener('click', e => { this.update() })
+        document.addEventListener('keypress', e => { if (e.keyCode == 13) this.update() })
     }
+
+    update = () => { if (!this.isPaused) { this.isPaused = true } else { this.start() } }
 
     start = () => {
         this.isPaused = false

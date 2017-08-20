@@ -8,20 +8,29 @@ export default class Labyrinth {
     cellSize: number
     grid: Cell[][] = []
 
-    constructor (width: number = 60, height: number = 30, cellSize: number = 15) {
+    constructor (width: number = 50, height: number = 20, cellSize: number = 30) {
         this.width = width
         this.height = height
         this.cellSize = cellSize
         
+        this.createGrid()
+        while (!this.isGenerated()) this.generateLabyrinth()
+        this.selectEnd()
+
+    }
+
+    createGrid = () => {
         for (let i = 0; i < this.height; i++) {
             this.grid.push([])
             for (let j = 0; j < this.width; j++) {
                 this.grid[i].push(new Cell(j + i*this.width))
             }
         }
+    }
 
-        while (!this.isGenerated()) {
-            let i = this.randInt(0, this.height - 1), j = this.randInt(0, this.width - 1), k = this.randInt(0, 3)
+    generateLabyrinth = () => {
+        let i = this.randInt(0, this.height - 1), j = this.randInt(0, this.width - 1), k = this.randInt(0, 3)
+        if (!((i == 0 && k == 0) || (j == 0 && k == 3) || (i == this.height - 1 && k == 2) || (j == this.width - 1 && k == 1))) {
             if (this.grid[i][j].walls[k]) {
                 let target: Cell
                 switch (k) {
@@ -37,8 +46,9 @@ export default class Labyrinth {
                 }
             }
         }
-
     }
+
+    selectEnd = () => { this.grid[this.randInt(0, this.height - 1)][this.randInt(0, this.width - 1)].isEnd = true }
 
     updateGroupId = (id: number, targetId: number) => {
         this.grid.map((row, i) => {
