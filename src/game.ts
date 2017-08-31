@@ -10,11 +10,11 @@ export default class Game {
     players: Player[] = []
 
     constructor () {
-        window.addEventListener('resize', this.resize)
-        this.resize()
+        window.addEventListener('resize', this.init)
+        this.init()
     }
 
-    resize = () => {
+    init = () => {
         // Remove all children of the main game container
         const container = document.getElementById('game')
         while (container.firstChild) container.removeChild(container.firstChild)
