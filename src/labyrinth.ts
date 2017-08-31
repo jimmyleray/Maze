@@ -1,8 +1,10 @@
 import Config from './config'
+import Canvas from './canvas'
 import Cell from './cell'
 
 export default class Labyrinth {
     
+    canvas: Canvas = new Canvas('labyrinth')
     width: number = Math.floor(window.innerWidth/Config.cellSize)
     height: number = Math.floor(window.innerHeight/Config.cellSize)
     cellSize: number = Config.cellSize
@@ -12,6 +14,7 @@ export default class Labyrinth {
         this.createGrid()
         while (!this.isGenerated()) this.generateLabyrinth()
         this.selectEnd()
+        this.drawLabyrinth()
     }
 
     createGrid = () => {
@@ -60,6 +63,27 @@ export default class Labyrinth {
             }
         }
         return true
+    }
+
+    drawLabyrinth = () => {
+        this.grid.map((row, i) => {
+            row.map((cell, j) => {
+                if (cell.isEnd) {
+                    this.canvas.rectangle(Config.endColor, this.cellSize*j, this.cellSize*i, this.cellSize, this.cellSize)
+                }
+                cell.walls.map((wall, n) => {
+                    if (wall) {
+                        this.canvas.line(
+                            Config.wallsColor, Config.wallsWidth,
+                            this.cellSize*(j + (n == 1 ? 1 : 0)),
+                            this.cellSize*(i + (n == 2 ? 1 : 0)),
+                            this.cellSize*(j + (n != 3 ? 1 : 0)),
+                            this.cellSize*(i + (n != 0 ? 1 : 0))
+                        )
+                    }
+                })
+            })
+        })
     }
 
     randInt = (min: number, max: number): number => Math.floor(Math.random()*(max - min + 1)) + min

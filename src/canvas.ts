@@ -4,61 +4,29 @@ import Player from './player'
 
 export default class Canvas {
 
-    labyrinth: Labyrinth
-    canvas: HTMLCanvasElement = <HTMLCanvasElement> document.getElementById('game')
-    ctx: CanvasRenderingContext2D = this.canvas.getContext("2d")
-    players: Player[]
+    id: string
+    canvas: HTMLCanvasElement
+    ctx: CanvasRenderingContext2D
 
 
-    constructor (labyrinth: Labyrinth, players: Player[] = []) {
-        this.players = players
-        this.labyrinth = labyrinth
+    constructor (id: string) {
+        this.id = id
+
+        // Create canvas element with specific id
+        const div: HTMLElement = document.createElement('canvas')
+        div.setAttribute('id', this.id)
+        document.getElementById('game').appendChild(div)
+        this.canvas = <HTMLCanvasElement> document.getElementById(id)
+
+        // Create context of the canvas
+        this.ctx = this.canvas.getContext("2d")
+
+        // Manages the dimension of the canvas according to the window 
         this.canvas.width = Math.floor(window.innerWidth/Config.cellSize)*Config.cellSize
         this.canvas.height = Math.floor(window.innerHeight/Config.cellSize)*Config.cellSize
-        this.draw()
-    }
-
-    draw = () => {
-        this.clear()
-        this.drawLabyrinth()
-        this.drawPlayers()
     }
 
     clear = () => { this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height) }
-
-    drawLabyrinth = () => {
-        this.labyrinth.grid.map((row, i) => {
-            row.map((cell, j) => {
-                if (cell.isEnd) {
-                    this.rectangle(Config.endColor, this.labyrinth.cellSize*j, this.labyrinth.cellSize*i, this.labyrinth.cellSize, this.labyrinth.cellSize)
-                }
-                cell.walls.map((wall, n) => {
-                    if (wall) {
-                        this.line(
-                            Config.wallsColor, Config.wallsWidth,
-                            this.labyrinth.cellSize*(j + (n == 1 ? 1 : 0)),
-                            this.labyrinth.cellSize*(i + (n == 2 ? 1 : 0)),
-                            this.labyrinth.cellSize*(j + (n != 3 ? 1 : 0)),
-                            this.labyrinth.cellSize*(i + (n != 0 ? 1 : 0))
-                        )
-                    }
-                })
-            })
-        })
-    }
-
-    drawPlayers = () => {
-        this.players.map(player => {
-            player.move()
-            player.history.map((data, i) => {
-                if (player.history[i+1]) this.line(Config.playersColors[player.id].substr(0,20) + '0.25)', 2, data[0], data[1], player.history[i+1][0], player.history[i+1][1])
-            })
-            this.circle(Config.playersColors[player.id], 1, player.x, player.y, player.size)
-            this.circle(Config.backgroundColor, 1, player.x, player.y, player.size - 1)
-            this.circle(Config.playersColors[player.id].substr(0,20) + '0.5)', 1, player.x, player.y, player.size - 1)
-            //this.font(player.name, Config.playersColors[player.id].substr(0,20) + '0.5)', player.x + 2*player.size, player.y + player.size)
-        })
-    }
 
     font = (text: string, color: string, x: number = 0, y: number = 0, size: number = 12, font: string = 'Arial') => {
         this.ctx.font = size.toString() + 'px ' + font

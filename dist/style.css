@@ -13,6 +13,10 @@ html, body, #game {
     margin: 0; border: 0;
     overflow: hidden;
 }
+#game canvas {
+    position: absolute;
+    top: 0; left: 0;
+}
 
 #container {
     width: 100%; height: 100%;
