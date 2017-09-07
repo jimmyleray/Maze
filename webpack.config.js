@@ -16,4 +16,4 @@ module.exports = {
         path: __dirname + '/dist',
         filename: 'app.js'
     }
-};
+}

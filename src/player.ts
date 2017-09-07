@@ -14,6 +14,8 @@ export default class Player {
     moves : boolean[] = [false, false, false, false]
     history: number[][] = []
     loopID: number | undefined
+    hasFinished: boolean = false
+    menu: HTMLElement
     canvas: Canvas
     x: number
     y: number
@@ -21,38 +23,36 @@ export default class Player {
     constructor (
         labyrinth: Labyrinth, 
         id: number, 
-        config: number = 0,
-        name: string = undefined, 
-        x: number = 0, 
-        y: number = 0
+        config: number = 0
     ) {
         this.id = id, this.labyrinth = labyrinth, this.config = config
+        this.name = 'Player ' + (id + 1).toString()
+        this.menu = document.getElementById('player_' + (this.id + 1).toString())
+        this.menu.style.backgroundColor = Config.playersColors[this.id].substr(0,20) + '0.25)'
+        this.controls()
+        this.init()
+    }
+
+    init = () => {
+        this.canvas = new Canvas(this.id.toString())
         this.x = this.labyrinth.cellSize*(0.5 + this.randInt(0, this.labyrinth.width - 1))
         this.y = this.labyrinth.cellSize*(0.5 + this.randInt(0, this.labyrinth.height - 1))
-        this.name = name ? name : 'Player ' + (id + 1).toString()
-        this.canvas = new Canvas(this.id.toString())
-        this.controls()
-        this.start()
     }
 
     loop = () => {
-        this.start()
         this.move()
         this.draw()
     }
 
-    start = () => { this.loopID = window.requestAnimationFrame(this.loop) }
-    stop = () => { if (this.loopID) window.cancelAnimationFrame(this.loopID) }
-
     controls = () => {
-        document.addEventListener('keydown', e => { 
+        document.addEventListener('keydown', event => { 
             Config.playersControls[this.config].map((key, index) => {
-                if (e.keyCode == key) this.moves[index] = true
+                if (event.keyCode == key) this.moves[index] = true
             })
         })
-        document.addEventListener('keyup', e => { 
+        document.addEventListener('keyup', event => { 
             Config.playersControls[this.config].map((key, index) => {
-                if (e.keyCode == key) this.moves[index] = false
+                if (event.keyCode == key) this.moves[index] = false
             })
         })
     }
@@ -72,28 +72,32 @@ export default class Player {
 
     move = () => {
         const cell = this.getActualCell()
-        if (this.moves[0]) {
-            if ((this.y - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
-                if (!cell.walls[0]) this.y--
-            } else { this.y-- }
+        if (cell.isEnd) {
+            this.hasFinished = true
+        } else {
+            if (this.moves[0]) {
+                if ((this.y - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
+                    if (!cell.walls[0]) this.y--
+                } else { this.y-- }
+            }
+            if (this.moves[1]) {
+                if ((this.x + this.size) % this.labyrinth.cellSize == this.labyrinth.cellSize - 1) {
+                    if (!cell.walls[1]) this.x++
+                } else { this.x++ }
+            }
+            if (this.moves[2]) {
+                if ((this.y + this.size) % this.labyrinth.cellSize ==  this.labyrinth.cellSize - 1) {
+                    if (!cell.walls[2]) this.y++
+                } else { this.y++ }
+            }
+            if (this.moves[3]) {
+                if ((this.x - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
+                    if (!cell.walls[3]) this.x--
+                } else { this.x-- }
+            }
+            //this.history.unshift([this.x, this.y])
+            //this.history = this.history.splice(0, Config.tailSize)
         }
-        if (this.moves[1]) {
-            if ((this.x + this.size) % this.labyrinth.cellSize == this.labyrinth.cellSize - 1) {
-                if (!cell.walls[1]) this.x++
-            } else { this.x++ }
-        }
-        if (this.moves[2]) {
-            if ((this.y + this.size) % this.labyrinth.cellSize ==  this.labyrinth.cellSize - 1) {
-                if (!cell.walls[2]) this.y++
-            } else { this.y++ }
-        }
-        if (this.moves[3]) {
-            if ((this.x - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
-                if (!cell.walls[3]) this.x--
-            } else { this.x-- }
-        }
-        //this.history.unshift([this.x, this.y])
-        //this.history = this.history.splice(0, Config.tailSize)
     }
 
     getActualCell = (): Cell => this.labyrinth.grid[Math.floor(this.y / this.labyrinth.cellSize)][Math.floor(this.x / this.labyrinth.cellSize)]

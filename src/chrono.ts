@@ -1,36 +1,62 @@
 import Config from './config'
+import Game from './game'
 
 export default class Chrono {
 
+    game: Game
     startTime: Date
     diffTime: number = 0
-    stockedTime: number = 0
-    isPaused: boolean = true
-    chrono: HTMLElement = document.getElementById('chrono')
+    stopped: boolean = false
 
-    constructor () {
-        this.chrono.addEventListener('click', e => { this.update() })
-        document.addEventListener('keypress', e => { if (e.keyCode == 13) this.update() })
+    constructor (game: Game) {
+        this.game = game
+        this.init()
+
+        // Listen click on start button to start
+        document.getElementById('versus').addEventListener('click', event => {
+            event.stopPropagation()
+            this.game.gameMod = 'versus'
+            this.start(); this.game.start()
+        })
+        document.getElementById('coop').addEventListener('click', event => {
+            event.stopPropagation()
+            this.game.gameMod = 'coop'
+            this.start(); this.game.start()
+        })
+        document.getElementById('chrono').addEventListener('click', event => {
+            this.game.init()
+        })
     }
 
-    update = () => { if (!this.isPaused) { this.isPaused = true } else { this.start() } }
+    init = () => {
+        document.getElementById('versus').innerHTML = 'Versus'
+        document.getElementById('message').innerHTML = ' / '
+        document.getElementById('coop').innerHTML = 'Coop'
+        document.getElementById('seconds').innerHTML = ''
+        document.getElementById('milliseconds').innerHTML = ''
+    }
 
     start = () => {
-        this.isPaused = false
+        this.stopped = false
         this.startTime = new Date()
         this.actualize()
     }
+    stop = () => {
+        this.stopped = true
+    }
 
     actualize = () => {
-        this.diffTime = this.stockedTime + Math.abs(new Date().getTime() - this.startTime.getTime())
-        if (!this.isPaused) { requestAnimationFrame(this.actualize) } else { this.stockedTime = this.diffTime }
+        this.diffTime = Math.abs(new Date().getTime() - this.startTime.getTime())
+        if (!this.stopped) { requestAnimationFrame(this.actualize) }
         this.display()
     }
 
     display = () => {
-        this.chrono.childNodes[1].textContent = ''
-        this.chrono.childNodes[3].textContent = ((this.diffTime - this.diffTime % 1000) / 1000).toString()
-        this.chrono.childNodes[5].textContent = ('00' + (this.diffTime % 1000).toString() + '0').slice(-4, -1)
+        document.getElementById('versus').innerHTML = ''
+        document.getElementById('message').innerHTML = ''
+        document.getElementById('coop').innerHTML = ''
+        document.getElementById('seconds').innerHTML = ((this.diffTime - this.diffTime % 1000) / 1000).toString() + 's '
+        document.getElementById('milliseconds').innerHTML = ('00' + (this.diffTime % 1000).toString() + '0').slice(-4, -1)
     }
     
 }

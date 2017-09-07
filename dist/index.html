@@ -8,12 +8,18 @@
     </head>
     <body>
         <div id="game"></div>
-        <div id="container">
-            <div id="chrono" title="Click when you are ready to start">
-                <span style="font-size: 22px;">Start</span>
-                <span style="font-size: 26px; font-weight: bold;"></span>
-                <span></span>
-            </div>
+        <div id="menu">
+            <div id="player_1">Player 1</div>
+            <div id="player_2">Press <div class="keyboard button">Enter</div> or <div class="gamepad button">A</div> to add a <b>player</b></div>
+            <div id="chrono">
+                <span id="versus"></span>
+                <span id="message"></span>
+                <span id="coop"></span>
+                <span id="seconds"></span>
+                <span id="milliseconds"></span></div>
+            <div id="player_3"></div>
+            <div id="player_4"></div>
+            <div id="player_5" style="display:none"></div>
         </div>
         <script src="app.js"></script>
     </body>

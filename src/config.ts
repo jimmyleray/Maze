@@ -1,5 +1,5 @@
 export default {
-    cellSize: 24,
+    cellSize: 18,
     tailSize: 200,
     endColor: 'rgba(046, 204, 113, 0.25)',
     backgroundColor: '#ecf0f1',
