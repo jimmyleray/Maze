@@ -1,5 +1,6 @@
 import Config from './config'
 import Game from './game'
+declare const Synth: any
 
 export default class Chrono {
 
@@ -24,7 +25,7 @@ export default class Chrono {
             this.start(); this.game.start()
         })
         document.getElementById('chrono').addEventListener('click', event => {
-            this.game.init()
+            if (!this.game.isStarted) this.game.init()
         })
     }
 
@@ -46,7 +47,9 @@ export default class Chrono {
     }
 
     actualize = () => {
+        const exDiffTime = this.diffTime
         this.diffTime = Math.abs(new Date().getTime() - this.startTime.getTime())
+        if (~~(this.diffTime/1000) != ~~(exDiffTime/1000)) new Audio(Synth.generate(0, 'C#', 1, 1)).play()
         if (!this.stopped) { requestAnimationFrame(this.actualize) }
         this.display()
     }

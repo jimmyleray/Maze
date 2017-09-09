@@ -2,6 +2,7 @@ import Config from './config'
 import Chrono from './chrono'
 import Player from './player'
 import Labyrinth from './labyrinth'
+declare const Synth: any
 
 export default class Game {
     
@@ -69,6 +70,7 @@ export default class Game {
     // Start and stop functions to control main game loop
     start = () => { this.isStarted = true; this.loopID = window.requestAnimationFrame(this.loop) }
     stop = () => {
+        new Audio(Synth.generate(0, 'C#', 4, 1)).play()
         this.isFinished = true; this.isStarted = false
         if (this.loopID) window.cancelAnimationFrame(this.loopID)
     }

@@ -15,5 +15,9 @@
     "ts-loader": "^2.3.2",
     "typescript": "^2.4.2",
     "webpack": "^3.5.4"
+  },
+  "dependencies": {
+    "audiosynth": "0.0.5",
+    "hyperapp": "^0.12.1"
   }
 }
