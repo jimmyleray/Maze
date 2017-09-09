@@ -81,3 +81,36 @@ html, body {
 #milliseconds {
     font-size: 14px;
 }
+
+.menu-player {
+    height: 64px;
+    position: absolute;
+    left: 0px; bottom: 0px;
+    width: calc(25% - 50px);
+    text-align: center;
+    line-height: 64px;
+}
+
+.player_1 {
+    margin-left: 0%;
+    background-color: rgba(231, 076, 060, 0.25);
+}
+
+.player_2 {
+    margin-left: calc(25% - 50px);
+    background-color: rgba(052, 152, 219, 0.25);
+}
+
+.player_3 {
+    margin-left: calc(50% - 100px);
+    background-color: rgba(046, 204, 113, 0.25);
+}
+
+.player_4 {
+    margin-left: calc(75% - 150px);
+    background-color: rgba(241, 196, 015, 0.25);
+}
+
+.player_background {
+    background-color: white !important;
+}

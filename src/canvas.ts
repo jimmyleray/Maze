@@ -23,7 +23,7 @@ export default class Canvas {
 
         // Manages the dimension of the canvas according to the window 
         this.canvas.width = Math.floor(window.innerWidth/Config.cellSize)*Config.cellSize
-        this.canvas.height = Math.floor(window.innerHeight/Config.cellSize)*Config.cellSize
+        this.canvas.height = Math.floor((window.innerHeight-64)/Config.cellSize)*Config.cellSize
     }
 
     clear = () => { this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height) }

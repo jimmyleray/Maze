@@ -6,7 +6,7 @@ export default class Labyrinth {
     
     canvas: Canvas = new Canvas('labyrinth')
     width: number = Math.floor(window.innerWidth/Config.cellSize)
-    height: number = Math.floor(window.innerHeight/Config.cellSize)
+    height: number = Math.floor((window.innerHeight-64)/Config.cellSize)
     cellSize: number = Config.cellSize
     grid: Cell[][] = []
 

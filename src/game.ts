@@ -68,11 +68,16 @@ export default class Game {
     }
 
     // Start and stop functions to control main game loop
-    start = () => { this.isStarted = true; this.loopID = window.requestAnimationFrame(this.loop) }
+    start = () => {
+        this.isStarted = true
+        this.loopID = window.requestAnimationFrame(this.loop)
+    }
+
     stop = () => {
-        new Audio(Synth.generate(0, 'C#', 4, 1)).play()
+        new Audio(Synth.generate(0, 'C', 4, 1)).play()
         this.isFinished = true; this.isStarted = false
         if (this.loopID) window.cancelAnimationFrame(this.loopID)
+        this.players.map(player => { player.canvas.clear(); player.drawHistory(); player.draw() })
     }
 
     // Function to add a player with a specific name
