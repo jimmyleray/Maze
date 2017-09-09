@@ -2,7 +2,7 @@ import Config from './config'
 import Labyrinth from './labyrinth'
 import Canvas from './canvas'
 import Cell from './cell'
-import { h, app } from 'hyperapp'
+declare const hyperapp: any
 
 export default class Player {
 
@@ -27,12 +27,10 @@ export default class Player {
         this.menu = document.getElementById('player_' + (this.id + 1).toString())
         this.menu.style.backgroundColor = Config.playersColors[this.id].substr(0,20) + '0.25)'
 
-        /*
-        app({
+        hyperapp.app({
             state: { name: this.name },
-            view: state => h('div', {}, state.name)
+            view: (state: any) => hyperapp.h('div', {}, state.name)
         })
-        */
 
         this.controls()
         this.init()
