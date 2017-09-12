@@ -96,7 +96,7 @@ export default class Player {
 
     drawHistory = () => {
         this.history.map((data, i) => {
-            if (this.history[i+1]) this.canvas.line(Config.playersColors[this.id].substr(0,20) + '0.25)', 2, data[0], data[1], this.history[i+1][0], this.history[i+1][1])
+            if (this.history[i+1]) this.canvas.line(Config.playersColors[this.id].substr(0,20) + '0.5)', 2, data[0], data[1], this.history[i+1][0], this.history[i+1][1])
         })
     }
 
