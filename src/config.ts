@@ -1,5 +1,5 @@
 export default {
-    cellSize: 18,
+    cellSize: 20,
     endColor: 'rgba(046, 204, 113, 0.25)',
     backgroundColor: '#ecf0f1',
     wallsColor: '#ccc',
@@ -12,7 +12,9 @@ export default {
         'rgba(241, 196, 015, 1.0)', // yellow
     ],
     playersControls: [
-        [38, 39, 40, 37], // UP, RIGHT, DOWN, LEFT
-        [90, 68, 83, 81], // Z, D, S, Q
+        'keyboard-1',
+        'keyboard-2',
+        'gamepad-1',
+        'gamepad-2'
     ]
 }

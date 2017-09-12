@@ -18,6 +18,8 @@ export default class Player {
     hasFinished: boolean = false
     menu: HTMLElement
     canvas: Canvas
+    gamePadFlag: boolean = false
+    gamePadIdx: number
     x: number
     y: number
 
@@ -51,22 +53,38 @@ export default class Player {
     }
 
     loop = () => {
+        if (this.gamePadFlag) this.gamepadControls(this.gamePadIdx)
         this.move()
         this.canvas.clear()
         this.draw()
     }
 
     controls = () => {
-        document.addEventListener('keydown', event => { 
-            Config.playersControls[this.config].map((key, index) => {
-                if (event.keyCode == key) this.moves[index] = true
+        if (Config.playersControls[this.config].split('-')[0] == 'keyboard') {
+            const touch = Config.playersControls[this.config].split('-')[1] == '1' ? [38, 39, 40, 37] : [90, 68, 83, 81]
+            document.addEventListener('keydown', event => { 
+                touch.map((key, index) => {
+                    if (event.keyCode == key) this.moves[index] = true
+                })
             })
-        })
-        document.addEventListener('keyup', event => { 
-            Config.playersControls[this.config].map((key, index) => {
-                if (event.keyCode == key) this.moves[index] = false
+            document.addEventListener('keyup', event => { 
+                touch.map((key, index) => {
+                    if (event.keyCode == key) this.moves[index] = false
+                })
             })
-        })
+        } else {
+            this.gamePadIdx = parseInt(Config.playersControls[this.config].split('-')[1])
+            this.gamePadFlag = true
+        }
+    }
+
+    gamepadControls = (idx: number) => {
+        const gamepad = navigator.getGamepads()[idx]
+        this.moves = [false, false, false, false]
+        if (gamepad.axes[0] < -0.7) this.moves[3] = true
+        if (gamepad.axes[1] > 0.7) this.moves[2] = true
+        if (gamepad.axes[0] > 0.7) this.moves[1] = true
+        if (gamepad.axes[1] < -0.7) this.moves[0] = true
     }
 
     draw = () => {
@@ -83,35 +101,48 @@ export default class Player {
     }
 
     move = () => {
-        const cell = this.getActualCell()
+        const cell = this.getCell(this.x, this.y)
         if (cell.isEnd) {
             this.hasFinished = true
         } else {
-            if (this.moves[0]) {
-                if ((this.y - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
-                    if (!cell.walls[0]) this.y--
-                } else { this.y-- }
-            }
-            if (this.moves[1]) {
-                if ((this.x + this.size) % this.labyrinth.cellSize == this.labyrinth.cellSize - 1) {
-                    if (!cell.walls[1]) this.x++
-                } else { this.x++ }
-            }
-            if (this.moves[2]) {
-                if ((this.y + this.size) % this.labyrinth.cellSize ==  this.labyrinth.cellSize - 1) {
-                    if (!cell.walls[2]) this.y++
-                } else { this.y++ }
-            }
-            if (this.moves[3]) {
-                if ((this.x - this.size - Config.wallsWidth/2) % this.labyrinth.cellSize == 0) {
-                    if (!cell.walls[3]) this.x--
-                } else { this.x-- }
+            let x_target = this.x
+            let y_target = this.y
+            if (this.moves[0]) y_target--
+            if (this.moves[1]) x_target++
+            if (this.moves[2]) y_target++
+            if (this.moves[3]) x_target--
+            if (this.legalMove(x_target, y_target)) {
+                this.x = x_target
+                this.y = y_target
             }
             this.history.unshift([this.x, this.y])
         }
     }
 
-    getActualCell = (): Cell => this.labyrinth.grid[Math.floor(this.y / this.labyrinth.cellSize)][Math.floor(this.x / this.labyrinth.cellSize)]
+    getCell = (x: number, y:number): Cell => this.labyrinth.grid[Math.floor(y / this.labyrinth.cellSize)][Math.floor(x / this.labyrinth.cellSize)]
     
+    legalMove = (x: number, y: number): boolean => {
+        const target = this.getCell(x, y)
+        if (x % this.labyrinth.cellSize <= Config.wallsWidth) {
+            if (y % this.labyrinth.cellSize <= Config.wallsWidth) {
+                return !target.walls[0] && !target.walls[3] // top-left
+            } else if (y % this.labyrinth.cellSize >= this.labyrinth.cellSize - Config.wallsWidth) {
+                return !target.walls[2] && !target.walls[3] // bottom-left
+            } else { return !target.walls[3] } // left
+        } else if (x % this.labyrinth.cellSize >= this.labyrinth.cellSize - Config.wallsWidth) {
+            if (y % this.labyrinth.cellSize <= Config.wallsWidth) {
+                return !target.walls[0] && !target.walls[1] // top-right
+            } else if (y % this.labyrinth.cellSize >= this.labyrinth.cellSize - Config.wallsWidth) {
+                return !target.walls[1] && !target.walls[2] // bottom-right
+            } else { return !target.walls[1] } // right
+        } else {
+            if (y % this.labyrinth.cellSize <= Config.wallsWidth) {
+                return !target.walls[0] // top
+            } else if (y % this.labyrinth.cellSize >= this.labyrinth.cellSize - Config.wallsWidth) {
+                return !target.walls[2] // bottom
+            } else { return true } // center
+        }
+    }
+
     randInt = (min: number, max: number): number => Math.floor(Math.random()*(max - min + 1)) + min
 }
